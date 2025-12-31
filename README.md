@@ -126,6 +126,8 @@ Run enhancer script:
 node index.js
 ```
 
+“Enhancer is a manual batch script due to free-tier limitations”
+
 This will:
 
 Fetch articles from backend
