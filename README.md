@@ -186,13 +186,13 @@ http://localhost:5173
 └─────────────────────┘
 ```
 🔐 Security Practices
-
-1-.env files are ignored using .gitignore
-2-API keys are never committed
-3-.env.example provided for setup reference
-
+```
+.env files are ignored using .gitignore
+API keys are never committed
+.env.example provided for setup reference
+```
 ✅ Features Implemented
-
+```
 ✔ Web scraping (BeyondChats)
 ✔ MongoDB storage
 ✔ Full CRUD APIs
@@ -200,12 +200,12 @@ http://localhost:5173
 ✔ AI-based article enhancement
 ✔ Reference citation
 ✔ Responsive frontend UI
-
+```
 🚧 Known Limitations
-
+```
 OpenAI rate limits may block multiple enhancements
 Google scraping depends on SerpAPI availability
-
+```
 👤 Author
 
 Ishu Agrawal
