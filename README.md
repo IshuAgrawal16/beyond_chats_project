@@ -1,11 +1,12 @@
-# BeyondChats Article Scraper & AI Content Enhancer
+# BeyondChats – AI Article Scraping & Enhancement Platform
 
-This project is a **full-stack application** that scrapes blog articles from **BeyondChats**, stores them in a database, enhances them using **AI (LLM)** based on top-ranking Google articles, and displays both original and enhanced versions in a **React frontend**.
+This project is a full-stack system that:
+- Scrapes blog articles from **BeyondChats**
+- Stores them in **MongoDB**
+- Enhances articles using **Google Search + LLM (OpenAI)**
+- Displays both **original and enhanced articles** in a **React frontend**
 
-The project is divided into **three phases**:
-1. Scraping & CRUD APIs
-2. AI-based content enhancement
-3. Frontend article display
+This repository is submitted as a **technical task project** and demonstrates backend scraping, API design, LLM integration, and frontend rendering.
 
 ---
 
@@ -16,9 +17,9 @@ The project is divided into **three phases**:
 - Express.js
 - MongoDB Atlas
 - Axios
-- Cheerio (HTML scraping)
+- Cheerio
+- OpenAI API
 - SerpAPI (Google Search)
-- OpenAI API (LLM)
 
 ### Frontend
 - React (Vite)
@@ -28,56 +29,186 @@ The project is divided into **three phases**:
 
 ## 📂 Project Structure
 
+```text
 beyond_chats_project/
 │
 ├── backend/
-│ ├── src/
-│ │ ├── models/
-│ │ ├── routes/
-│ │ ├── scraper/
-│ │ ├── server.js
-│ │
-│ ├── enhancer/
-│ │ ├── index.js
-│ │ ├── googleSearch.js
-│ │ ├── scrapeExternal.js
-│ │ ├── llm.js
-│ │
-│ ├── .env.example
-│ └── package.json
+│   ├── src/
+│   │   ├── models/          # MongoDB schemas
+│   │   ├── routes/          # CRUD APIs
+│   │   ├── scraper/         # BeyondChats scraper
+│   │   └── server.js        # Backend entry
+│   ├── enhancer/
+│   │   ├── googleSearch.js  # Google search logic
+│   │   ├── scrapeExternal.js# External article scraper
+│   │   ├── llm.js           # OpenAI content enhancer
+│   │   └── index.js         # Enhancement runner
+│   ├── .env.example
+│   └── package.json
 │
 ├── frontend/
-│ ├── src/
-│ ├── index.css
-│ ├── App.css
-│ └── package.json
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── App.jsx
+│   │   ├── index.css
+│   │   └── app.css
+│   ├── package.json
+│   └── vite.config.js
 │
-├── .gitignore
 └── README.md
+```
+
 
 ---
 
-## ✨ Features
-
-- Scrapes the **5 oldest BeyondChats blog articles**
-- Stores articles in MongoDB
-- Full CRUD APIs for articles
-- Searches Google for related high-ranking articles
-- Scrapes external content
-- Enhances articles using an LLM
-- Adds references to enhanced articles
-- Prevents duplicate enhancement
-- Responsive frontend UI for viewing articles
-
----
-
-## 🔧 Local Setup Instructions
+## ⚙️ Local Setup Instructions
 
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone <your-github-repo-url>
-cd beyond_chats_project
+git clone https://github.com/<your-username>/<repo-name>.git
+cd <repo-name>
+```
+
 2️⃣ Backend Setup
+```bash
 cd backend
 npm install
+```
+
+
+Create a .env file inside backend/:
+```
+PORT=5000
+MONGO_URI=your_mongodb_atlas_connection_string
+```
+
+
+Start backend server:
+```
+npm start
+```
+
+Expected output:
+```
+✅ MongoDB connected
+✅ Server running on port 5000
+```
+
+Backend API:
+```
+http://localhost:5000/api/articles
+```
+3️⃣ Run Scraper (Phase 1)
+
+The backend automatically scrapes the 5 oldest articles from:
+```
+https://beyondchats.com/blogs/
+```
+
+And stores them in MongoDB on server start.
+
+4️⃣ Enhancer Setup (Phase 2)
+```
+cd enhancer
+npm install
+```
+
+Create .env file inside enhancer/:
+```
+OPENAI_API_KEY=your_openai_api_key
+SERPAPI_KEY=your_serpapi_key
+```
+
+Run enhancer script:
+```
+node index.js
+```
+
+This will:
+
+Fetch articles from backend
+
+Search Google using article titles
+
+Scrape top 2 external articles
+
+Enhance content using LLM
+
+Update articles via API
+
+5️⃣ Frontend Setup (Phase 3)
+```
+cd frontend
+npm install
+npm run dev
+```
+
+Open browser:
+```
+http://localhost:5173
+```
+🔁 Data Flow / Architecture Diagram
+```
+┌─────────────────────┐
+│ BeyondChats Blogs   │
+│ (Web Scraping)      │
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐
+│ Backend (Node.js)   │
+│ - Scraper           │
+│ - CRUD APIs         │
+│ - MongoDB           │
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐
+│ Enhancer Service    │
+│ - Google Search     │
+│ - External Scraping │
+│ - OpenAI LLM        │
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐
+│ Backend APIs        │
+│ (Updated Articles) │
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐
+│ React Frontend      │
+│ - Original Articles │
+│ - Enhanced Articles │
+└─────────────────────┘
+```
+🔐 Security Practices
+
+1-.env files are ignored using .gitignore
+2-API keys are never committed
+3-.env.example provided for setup reference
+
+✅ Features Implemented
+
+✔ Web scraping (BeyondChats)
+✔ MongoDB storage
+✔ Full CRUD APIs
+✔ Google Search integration
+✔ AI-based article enhancement
+✔ Reference citation
+✔ Responsive frontend UI
+
+🚧 Known Limitations
+
+OpenAI rate limits may block multiple enhancements
+Google scraping depends on SerpAPI availability
+
+👤 Author
+
+Ishu Agrawal
+Aspiring AWS Cloud / Full Stack Developer
+LinkedIn: https://www.linkedin.com/in/contact-ishu-agrawal/
+
